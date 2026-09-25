@@ -112,77 +112,77 @@ private:
     string const name_;
 };
 
-// // №1. Реализация класса CopySyntaxTree (Паттерн Visitor)
-// struct CopySyntaxTree : Transformer {
-//     Expression *transformNumber(Number const *number) override { 
-//         return new Number(number->value());
-//     }
+// №1. Реализация класса CopySyntaxTree (Паттерн Visitor)
+struct CopySyntaxTree : Transformer {
+    Expression *transformNumber(Number const *number) override { 
+        return new Number(number->value());
+    }
 
-//     Expression *transformBinaryOperation(BinaryOperation const *binop) override { 
-//         Expression* leftCopy = binop->left()->transform(this);
-//         Expression* rightCopy = binop->right()->transform(this);
-//         return new BinaryOperation(leftCopy, binop->operation(), rightCopy);
-//     }
+    Expression *transformBinaryOperation(BinaryOperation const *binop) override { 
+        Expression* leftCopy = binop->left()->transform(this);
+        Expression* rightCopy = binop->right()->transform(this);
+        return new BinaryOperation(leftCopy, binop->operation(), rightCopy);
+    }
 
-//     Expression *transformFunctionCall(FunctionCall const *fcall) override {
-//         Expression* argCopy = fcall->arg()->transform(this);
-//         return new FunctionCall(fcall->name(), argCopy);
-//     }
+    Expression *transformFunctionCall(FunctionCall const *fcall) override {
+        Expression* argCopy = fcall->arg()->transform(this);
+        return new FunctionCall(fcall->name(), argCopy);
+    }
 
-//     Expression *transformVariable(Variable const *var) override { 
-//         return new Variable(var->name());
-//     }
-// };
+    Expression *transformVariable(Variable const *var) override { 
+        return new Variable(var->name());
+    }
+};
 
-// //2. Реализация класса FoldConstants (Сворачивание констант)
-// struct FoldConstants : Transformer {
-//     Expression *transformNumber(Number const *number) override {
-//         return new Number(number->value());
-//     }
+//2. Реализация класса FoldConstants (Сворачивание констант)
+struct FoldConstants : Transformer {
+    Expression *transformNumber(Number const *number) override {
+        return new Number(number->value());
+    }
 
-//     Expression *transformBinaryOperation(BinaryOperation const *binop) override {
-//         Expression* leftFolded = binop->left()->transform(this);
-//         Expression* rightFolded = binop->right()->transform(this);
+    Expression *transformBinaryOperation(BinaryOperation const *binop) override {
+        Expression* leftFolded = binop->left()->transform(this);
+        Expression* rightFolded = binop->right()->transform(this);
 
-//         Number* leftNum = dynamic_cast<Number*>(leftFolded);
-//         Number* rightNum = dynamic_cast<Number*>(rightFolded);
+        Number* leftNum = dynamic_cast<Number*>(leftFolded);
+        Number* rightNum = dynamic_cast<Number*>(rightFolded);
 
-//         if (leftNum && rightNum) {
-//             double result = 0.0;
-//             switch (binop->operation()) {
-//                 case BinaryOperation::PLUS:  result = leftNum->value() + rightNum->value(); break;
-//                 case BinaryOperation::MINUS: result = leftNum->value() - rightNum->value(); break;
-//                 case BinaryOperation::MUL:   result = leftNum->value() * rightNum->value(); break;
-//                 case BinaryOperation::DIV:   result = leftNum->value() / rightNum->value(); break;
-//             }
-//             delete leftFolded;
-//             delete rightFolded;
-//             return new Number(result);
-//         }
-//         return new BinaryOperation(leftFolded, binop->operation(), rightFolded);
-//     }
+        if (leftNum && rightNum) {
+            double result = 0.0;
+            switch (binop->operation()) {
+                case BinaryOperation::PLUS:  result = leftNum->value() + rightNum->value(); break;
+                case BinaryOperation::MINUS: result = leftNum->value() - rightNum->value(); break;
+                case BinaryOperation::MUL:   result = leftNum->value() * rightNum->value(); break;
+                case BinaryOperation::DIV:   result = leftNum->value() / rightNum->value(); break;
+            }
+            delete leftFolded;
+            delete rightFolded;
+            return new Number(result);
+        }
+        return new BinaryOperation(leftFolded, binop->operation(), rightFolded);
+    }
 
-//     Expression *transformFunctionCall(FunctionCall const *fcall) override {
-//         Expression* argFolded = fcall->arg()->transform(this);
-//         Number* argNum = dynamic_cast<Number*>(argFolded);
+    Expression *transformFunctionCall(FunctionCall const *fcall) override {
+        Expression* argFolded = fcall->arg()->transform(this);
+        Number* argNum = dynamic_cast<Number*>(argFolded);
 
-//         if (argNum) {
-//             double result = 0.0;
-//             if (fcall->name() == "sqrt") {
-//                 result = sqrt(argNum->value());
-//             } else if (fcall->name() == "abs") {
-//                 result = fabs(argNum->value());
-//             }
-//             delete argFolded;
-//             return new Number(result);
-//         }
-//         return new FunctionCall(fcall->name(), argFolded);
-//     }
+        if (argNum) {
+            double result = 0.0;
+            if (fcall->name() == "sqrt") {
+                result = sqrt(argNum->value());
+            } else if (fcall->name() == "abs") {
+                result = fabs(argNum->value());
+            }
+            delete argFolded;
+            return new Number(result);
+        }
+        return new FunctionCall(fcall->name(), argFolded);
+    }
 
-//     Expression *transformVariable(Variable const *var) override {
-//         return new Variable(var->name());
-//     }
-// };
+    Expression *transformVariable(Variable const *var) override {
+        return new Variable(var->name());
+    }
+};
 
 // //3. Вариант 4. Адаптер Объекта (PointPolar к PointDecart)
 // // Декартовы координаты
