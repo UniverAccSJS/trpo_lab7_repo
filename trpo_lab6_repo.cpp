@@ -184,194 +184,194 @@ struct FoldConstants : Transformer {
     }
 };
 
-// //3. Вариант 4. Адаптер Объекта (PointPolar к PointDecart)
-// // Декартовы координаты
-// class PointDecart {
-// protected:
-//     double x_;
-//     double y_;
+//3. Вариант 4. Адаптер Объекта (PointPolar к PointDecart)
+// Декартовы координаты
+class PointDecart {
+protected:
+    double x_;
+    double y_;
 
-// public:
-//     PointDecart(double x = 0.0, double y = 0.0) : x_(x), y_(y) {}
-//     virtual ~PointDecart() {}
+public:
+    PointDecart(double x = 0.0, double y = 0.0) : x_(x), y_(y) {}
+    virtual ~PointDecart() {}
 
-//     virtual double getX() const { return x_; }
-//     virtual double getY() const { return y_; }
-//     virtual void setX(double x) { x_ = x; }
-//     virtual void setY(double y) { y_ = y; }
+    virtual double getX() const { return x_; }
+    virtual double getY() const { return y_; }
+    virtual void setX(double x) { x_ = x; }
+    virtual void setY(double y) { y_ = y; }
 
-//     virtual void print() const {
-//         cout << "Decart Point: (" << x_ << ", " << y_ << ")" << "\n";
-//     }
-// };
+    virtual void print() const {
+        cout << "Decart Point: (" << x_ << ", " << y_ << ")" << "\n";
+    }
+};
 
-// // Полярные координаты (Адаптируемый класс)
-// class PointPolar {
-// private:
-//     double r_;     
-//     double phi_;   
+// Полярные координаты (Адаптируемый класс)
+class PointPolar {
+private:
+    double r_;     
+    double phi_;   
 
-// public:
-//     PointPolar(double r = 0.0, double phi = 0.0) : r_(r), phi_(phi) {}
+public:
+    PointPolar(double r = 0.0, double phi = 0.0) : r_(r), phi_(phi) {}
 
-//     double getR() const { return r_; }
-//     double getPhi() const { return phi_; }
-//     void setR(double r) { r_ = r; }
-//     void setPhi(double phi) { phi_ = phi; }
+    double getR() const { return r_; }
+    double getPhi() const { return phi_; }
+    void setR(double r) { r_ = r; }
+    void setPhi(double phi) { phi_ = phi; }
 
-//     void printPolar() const {
-//         double degrees = phi_ * 180.0 / M_PI;
-//         cout << "Polar Point: (r = " << r_ << ", phi = " << degrees << "°)" << "\n";
-//     }
-// };
+    void printPolar() const {
+        double degrees = phi_ * 180.0 / M_PI;
+        cout << "Polar Point: (r = " << r_ << ", phi = " << degrees << "°)" << "\n";
+    }
+};
 
-// // Адаптер объекта
-// class PointPolarAdapter : public PointDecart {
-// private:
-//     const PointPolar* polarPoint_; 
+// Адаптер объекта
+class PointPolarAdapter : public PointDecart {
+private:
+    const PointPolar* polarPoint_; 
 
-// public:
-//     PointPolarAdapter(const PointPolar* polarPoint) : polarPoint_(polarPoint) {}
+public:
+    PointPolarAdapter(const PointPolar* polarPoint) : polarPoint_(polarPoint) {}
 
-//     double getX() const override {
-//         return polarPoint_->getR() * cos(polarPoint_->getPhi());
-//     }
+    double getX() const override {
+        return polarPoint_->getR() * cos(polarPoint_->getPhi());
+    }
 
-//     double getY() const override {
-//         return polarPoint_->getR() * sin(polarPoint_->getPhi());
-//     }
+    double getY() const override {
+        return polarPoint_->getR() * sin(polarPoint_->getPhi());
+    }
 
-//     void setX(double x) override {
-//         cout << "[Adapter Warning] Direct setX is not supported for Polar Adapter." << "\n";
-//     }
+    void setX(double x) override {
+        cout << "[Adapter Warning] Direct setX is not supported for Polar Adapter." << "\n";
+    }
 
-//     void setY(double y) override {
-//         cout << "[Adapter Warning] Direct setY is not supported for Polar Adapter." << "\n";
-//     }
+    void setY(double y) override {
+        cout << "[Adapter Warning] Direct setY is not supported for Polar Adapter." << "\n";
+    }
 
-//     void print() const override {
-//         cout << "Adapted Decart View: (" << getX() << ", " << getY() << ")" << "\n";
-//     }
-// };
+    void print() const override {
+        cout << "Adapted Decart View: (" << getX() << ", " << getY() << ")" << "\n";
+    }
+};
 
-// // ============================================================================
-// // Демонстрация работы программы
-// // ============================================================================
+// ============================================================================
+// Демонстрация работы программы
+// ============================================================================
 
-// int main() {
-//     // Тесты №1
-//     cout << "=== ТЕСТИРОВАНИЕ ЗАДАНИЯ 1 (CopySyntaxTree) ===" << "\n";
+int main() {
+    // Тесты №1
+    cout << "=== ТЕСТИРОВАНИЕ ЗАДАНИЯ 1 (CopySyntaxTree) ===" << "\n";
     
-//     // Тест 1.1: Сложное выражение из методички: abs(var * sqrt(32.0 - 16.0))
-//     Number* n32 = new Number(32.0);
-//     Number* n16 = new Number(16.0);
-//     BinaryOperation* minus = new BinaryOperation(n32, BinaryOperation::MINUS, n16);
-//     FunctionCall* callSqrt = new FunctionCall("sqrt", minus);
-//     Variable* var = new Variable("var");
-//     BinaryOperation* mult = new BinaryOperation(var, BinaryOperation::MUL, callSqrt);
-//     FunctionCall* callAbs = new FunctionCall("abs", mult);
+    // Тест 1.1: Сложное выражение из методички: abs(var * sqrt(32.0 - 16.0))
+    Number* n32 = new Number(32.0);
+    Number* n16 = new Number(16.0);
+    BinaryOperation* minus = new BinaryOperation(n32, BinaryOperation::MINUS, n16);
+    FunctionCall* callSqrt = new FunctionCall("sqrt", minus);
+    Variable* var = new Variable("var");
+    BinaryOperation* mult = new BinaryOperation(var, BinaryOperation::MUL, callSqrt);
+    FunctionCall* callAbs = new FunctionCall("abs", mult);
 
-//     CopySyntaxTree CST;
-//     Expression* copiedExpr = callAbs->transform(&CST);
+    CopySyntaxTree CST;
+    Expression* copiedExpr = callAbs->transform(&CST);
     
-//     cout << "[Тест 1.1] Оригинал (var=0): " << callAbs->evaluate() << "\n";
-//     cout << "[Тест 1.1] Копия    (var=0): " << copiedExpr->evaluate() << "\n";
+    cout << "[Тест 1.1] Оригинал (var=0): " << callAbs->evaluate() << "\n";
+    cout << "[Тест 1.1] Копия    (var=0): " << copiedExpr->evaluate() << "\n";
 
-//     // Тест 1.2: Простое одиночное число
-//     Expression* singleNumber = new Number(42.0);
-//     Expression* copiedNumber = singleNumber->transform(&CST);
-//     cout << "[Тест 1.2] Одиночное число (оригинал): " << singleNumber->evaluate() << "\n";
-//     cout << "[Тест 1.2] Одиночное число (копия):    " << copiedNumber->evaluate() << "\n";
+    // Тест 1.2: Простое одиночное число
+    Expression* singleNumber = new Number(42.0);
+    Expression* copiedNumber = singleNumber->transform(&CST);
+    cout << "[Тест 1.2] Одиночное число (оригинал): " << singleNumber->evaluate() << "\n";
+    cout << "[Тест 1.2] Одиночное число (копия):    " << copiedNumber->evaluate() << "\n";
 
-//     // Тест 1.3: Выражение только из констант: (10.5 + 4.5) * 2.0
-//     Expression* constExpr = new BinaryOperation(
-//         new BinaryOperation(new Number(10.5), BinaryOperation::PLUS, new Number(4.5)),
-//         BinaryOperation::MUL,
-//         new Number(2.0)
-//     );
-//     Expression* copiedConstExpr = constExpr->transform(&CST);
-//     cout << "[Тест 1.3] Константное выражение (оригинал): " << constExpr->evaluate() << "\n";
-//     cout << "[Тест 1.3] Константное выражение (копия):    " << copiedConstExpr->evaluate() << "\n";
+    // Тест 1.3: Выражение только из констант: (10.5 + 4.5) * 2.0
+    Expression* constExpr = new BinaryOperation(
+        new BinaryOperation(new Number(10.5), BinaryOperation::PLUS, new Number(4.5)),
+        BinaryOperation::MUL,
+        new Number(2.0)
+    );
+    Expression* copiedConstExpr = constExpr->transform(&CST);
+    cout << "[Тест 1.3] Константное выражение (оригинал): " << constExpr->evaluate() << "\n";
+    cout << "[Тест 1.3] Константное выражение (копия):    " << copiedConstExpr->evaluate() << "\n";
 
 
-//     // Тесты №2
-//     cout << "\n=== ТЕСТИРОВАНИЕ ЧАСТИ 2 (FoldConstants) ===" << "\n";
-//     FoldConstants FC;
+    // Тесты №2
+    cout << "\n=== ТЕСТИРОВАНИЕ ЧАСТИ 2 (FoldConstants) ===" << "\n";
+    FoldConstants FC;
 
-//     // Тест 2.1: Сворачивание дерева abs(var * sqrt(32.0 - 16.0))
-//     // Внутри var останется переменной, но ветка sqrt(32-16) должна свернуться в 4.0
-//     Expression* foldedExpr = callAbs->transform(&FC);
-//     cout << "[Тест 2.1] Свернутое дерево из методички (var=0): " << foldedExpr->evaluate() << "\n";
+    // Тест 2.1: Сворачивание дерева abs(var * sqrt(32.0 - 16.0))
+    // Внутри var останется переменной, но ветка sqrt(32-16) должна свернуться в 4.0
+    Expression* foldedExpr = callAbs->transform(&FC);
+    cout << "[Тест 2.1] Свернутое дерево из методички (var=0): " << foldedExpr->evaluate() << "\n";
 
-//     // Тест 2.2: Полное сворачивание до одного узла (нет переменных)
-//     // Выражение: abs(sqrt(25.0) * -3.0) -> abs(5.0 * -3.0) -> abs(-15.0) -> 15.0
-//     Expression* fullFoldExpr = new FunctionCall("abs", 
-//         new BinaryOperation(
-//             new FunctionCall("sqrt", new Number(25.0)),
-//             BinaryOperation::MUL,
-//             new Number(-3.0)
-//         )
-//     );
-//     Expression* completelyFolded = fullFoldExpr->transform(&FC);
+    // Тест 2.2: Полное сворачивание до одного узла (нет переменных)
+    // Выражение: abs(sqrt(25.0) * -3.0) -> abs(5.0 * -3.0) -> abs(-15.0) -> 15.0
+    Expression* fullFoldExpr = new FunctionCall("abs", 
+        new BinaryOperation(
+            new FunctionCall("sqrt", new Number(25.0)),
+            BinaryOperation::MUL,
+            new Number(-3.0)
+        )
+    );
+    Expression* completelyFolded = fullFoldExpr->transform(&FC);
     
-//     // корень дерева стал обычным числом Number
-//     Number* isNumber = dynamic_cast<Number*>(completelyFolded);
-//     if (isNumber) {
-//         cout << "[Тест 2.2] Успех! Дерево полностью свернулось в один узел Number со значением: " 
-//              << isNumber->value() << "\n";
-//     } else {
-//         cout << "[Тест 2.2] Ошибка: Дерево не свернулось полностью." << "\n";
-//     }
+    // корень дерева стал обычным числом Number
+    Number* isNumber = dynamic_cast<Number*>(completelyFolded);
+    if (isNumber) {
+        cout << "[Тест 2.2] Успех! Дерево полностью свернулось в один узел Number со значением: " 
+             << isNumber->value() << "\n";
+    } else {
+        cout << "[Тест 2.2] Ошибка: Дерево не свернулось полностью." << "\n";
+    }
 
-//     // Тест 2.3: Частичное сворачивание при делении на 0 (деление вычисляется как inf/nan, но сворачивается)
-//     Expression* divByZeroExpr = new BinaryOperation(new Number(5.0), BinaryOperation::DIV, new Number(0.0));
-//     Expression* foldedDivByZero = divByZeroExpr->transform(&FC);
-//     cout << "[Тест 2.3] Деление на ноль свернулось в: " << foldedDivByZero->evaluate() << "\n";
-
-
-//     // Тесты №3 Вариант 4 (Декартова система —> полярная система)
-//     cout << "\n=== ТЕСТИРОВАНИЕ ЧАСТИ 3 ВАРИАНТА 4 (Адаптер Объекта) ===" << "\n";
-
-//     // Тест 3.1: Точка в первой четверти (r=5, угол 30 градусов)
-//     PointPolar* polar1 = new PointPolar(5.0, M_PI / 6.0); 
-//     PointDecart* adapter1 = new PointPolarAdapter(polar1);
-//     cout << "[Тест 3.1] "; polar1->printPolar();
-//     cout << "[Тест 3.1] Через адаптер -> "; adapter1->print();
-
-//     // Тест 3.2: Точка на осях координат (r=3, угол 90 градусов - строго на оси Y)
-//     // Ожидаем: X = 0, Y = 3
-//     PointPolar* polar2 = new PointPolar(3.0, M_PI / 2.0);
-//     PointDecart* adapter2 = new PointPolarAdapter(polar2);
-//     cout << "[Тест 3.2] "; polar2->printPolar();
-//     cout << "[Тест 3.2] Через адаптер -> "; adapter2->print();
-
-//     // Тест 3.3: Проверка динамического обновления (Паттерн Адаптер объекта)
-//     // При изменении полярной точки декартовы координаты в адаптере должны измениться автоматически!
-//     cout << "[Тест 3.3] Изменяем исходную полярную точку (r=10, угол 0 градусов)..." << "\n";
-//     polar2->setR(10.0);
-//     polar2->setPhi(0.0); // Теперь точка должна лежать на оси X: X=10, Y=0
-//     cout << "[Тест 3.3] Проверка через старый адаптер -> "; 
-//     adapter2->print();
+    // Тест 2.3: Частичное сворачивание при делении на 0 (деление вычисляется как inf/nan, но сворачивается)
+    Expression* divByZeroExpr = new BinaryOperation(new Number(5.0), BinaryOperation::DIV, new Number(0.0));
+    Expression* foldedDivByZero = divByZeroExpr->transform(&FC);
+    cout << "[Тест 2.3] Деление на ноль свернулось в: " << foldedDivByZero->evaluate() << "\n";
 
 
-//     // освобождение памяти
-//     delete callAbs;
-//     delete copiedExpr;
-//     delete singleNumber;
-//     delete copiedNumber;
-//     delete constExpr;
-//     delete copiedConstExpr;
+    // Тесты №3 Вариант 4 (Декартова система —> полярная система)
+    cout << "\n=== ТЕСТИРОВАНИЕ ЧАСТИ 3 ВАРИАНТА 4 (Адаптер Объекта) ===" << "\n";
+
+    // Тест 3.1: Точка в первой четверти (r=5, угол 30 градусов)
+    PointPolar* polar1 = new PointPolar(5.0, M_PI / 6.0); 
+    PointDecart* adapter1 = new PointPolarAdapter(polar1);
+    cout << "[Тест 3.1] "; polar1->printPolar();
+    cout << "[Тест 3.1] Через адаптер -> "; adapter1->print();
+
+    // Тест 3.2: Точка на осях координат (r=3, угол 90 градусов - строго на оси Y)
+    // Ожидаем: X = 0, Y = 3
+    PointPolar* polar2 = new PointPolar(3.0, M_PI / 2.0);
+    PointDecart* adapter2 = new PointPolarAdapter(polar2);
+    cout << "[Тест 3.2] "; polar2->printPolar();
+    cout << "[Тест 3.2] Через адаптер -> "; adapter2->print();
+
+    // Тест 3.3: Проверка динамического обновления (Паттерн Адаптер объекта)
+    // При изменении полярной точки декартовы координаты в адаптере должны измениться автоматически!
+    cout << "[Тест 3.3] Изменяем исходную полярную точку (r=10, угол 0 градусов)..." << "\n";
+    polar2->setR(10.0);
+    polar2->setPhi(0.0); // Теперь точка должна лежать на оси X: X=10, Y=0
+    cout << "[Тест 3.3] Проверка через старый адаптер -> "; 
+    adapter2->print();
+
+
+    // освобождение памяти
+    delete callAbs;
+    delete copiedExpr;
+    delete singleNumber;
+    delete copiedNumber;
+    delete constExpr;
+    delete copiedConstExpr;
     
-//     delete foldedExpr;
-//     delete fullFoldExpr;
-//     delete completelyFolded;
-//     delete divByZeroExpr;
-//     delete foldedDivByZero;
+    delete foldedExpr;
+    delete fullFoldExpr;
+    delete completelyFolded;
+    delete divByZeroExpr;
+    delete foldedDivByZero;
 
-//     delete polar1;
-//     delete adapter1;
-//     delete polar2;
-//     delete adapter2;
+    delete polar1;
+    delete adapter1;
+    delete polar2;
+    delete adapter2;
 
-//     return 0;
-// }
+    return 0;
+}
